@@ -7,20 +7,20 @@ const projectsData = [
     title: 'Fridglet',
     description: "Fridglet brings healthy dieting and eating habits to everyone. It allows you to eat healthy without breaking the bank by using ingredients you already have.",
     tags: ['Nutrition', 'AI','Health', 'COMING SOON'],
-    images: [
-        'public/fridglet/showcase.png',
-        '/public/fridglet/scan.png',
-        '/public/fridglet/wow.png'
-    ],
+  images: [
+    '/fridglet/showcase.png',
+    '/fridglet/scan.png',
+    '/fridglet/wow.png'
+  ],
   },
   {
         title: 'Vitra',
     description: 'Vitra is an all-in-one fitness app that allows you to plan and track your sleep, diet, and workouts. Featuring a clean and sleek UI, Vitra makes it easy for anyone to be healthy.',
     tags: ['Fitness', 'AI', 'Mobile', 'COMING 2026'],
     images: [
-      '/public/vitra/all.png',
-      '/public/vitra/dash.png',
-      '/public/vitra/workout.png'
+      '/vitra/all.png',
+      '/vitra/dash.png',
+      '/vitra/workout.png'
     ]
   },
   {
@@ -28,9 +28,9 @@ const projectsData = [
     description: 'The core artificial intelligence powering our ecosystem of health apps. Mangolia is being developed to provide personalized, predictive, and proactive wellness insights.',
     tags: ['Core Tech', 'AI', 'ML', 'COMING 2035'],
     images: [
-        'public/magnolia/logo.png',
-        'public/magnolia/logo.png',
-        'public/magnolia/logo.png'
+        '/magnolia/logo.png',
+        '/magnolia/logo.png',
+        '/magnolia/logo.png'
       ]
   },
 ];

@@ -5,19 +5,19 @@ const crewMembers = [
     name: 'Aditya Singh',
     role: 'Co-Founder',
     subtitle: 'Marketing & Front End',
-    image: '/public/aditya.jpg',
+  image: '/aditya.jpg',
   },
   {
     name: 'Om Dihvedi',
     role: 'Co-Founder',
     subtitle: 'Back End & Cyber Security',
-    image: '/public/om.jpg',
+  image: '/om.jpg',
   },
   {
     name: 'Jake Pham',
     role: 'CPO',
     subtitle: 'Front End & Graphic design',
-    image: '/public/jake.png',
+  image: '/jake.png',
   },
 ];
 
