@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './header.css';
 
 const navLinks = [
   { name: 'Our Projects', href: '#work' },
@@ -9,6 +10,7 @@ const navLinks = [
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [closeProjectsDropdown, setCloseProjectsDropdown] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('home');
   const sectionIdsRef = useRef<string[]>(['home', 'work', 'crew', 'contact']);
 
@@ -50,20 +52,58 @@ const Navigation: React.FC = () => {
 
   const NavLinks: React.FC<{ className?: string }> = ({ className }) => (
     <nav className={className}>
-      {navLinks.map(link => (
-        <a
-          key={link.name}
+      {navLinks.map(link => {
+        if (link.name === 'Our Projects') {
+          return (
+            <div key={link.name} className="relative group">
+              <a
+                href={link.href}
+                onClick={handleSmoothScroll}
+                aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
+                className={`relative text-sm font-medium transition-colors duration-200 py-2 inline-flex items-center ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+              >
+                {link.name}
+                <svg className="ml-2 w-3 h-3 text-current transition-transform duration-300 transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+                <span className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`} />
+              </a>
+
+              <div
+                className={`absolute right-0 mt-3 w-48 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-1 group-hover:translate-y-0 transition-all duration-200 ${closeProjectsDropdown ? 'opacity-0 invisible pointer-events-none' : ''}`}
+                style={{ backgroundColor: 'rgba(26,26,26,0.9)', border: '1px solid rgba(60,60,60,0.6)' }}
+              >
+                <div className="py-2 backdrop-blur-[10px] rounded-xl">
+                  <a href="#fridglet" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
+                    Fridglet
+                  </a>
+                  <a href="#vitra" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
+                    Vitra
+                  </a>
+                  <a href="#mongolia" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
+                    Mongolia
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <a
+            key={link.name}
             href={link.href}
             onClick={handleSmoothScroll}
             aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
             className={`relative group text-sm font-medium transition-colors duration-200 py-2 ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
-        >
+          >
             {link.name}
             <span
               className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`}
             />
-        </a>
-      ))}
+          </a>
+        );
+      })}
       {/* Internships Closed Flair */}
       <div className="relative flex items-center">
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm">

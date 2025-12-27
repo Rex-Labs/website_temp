@@ -4,6 +4,7 @@ import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion';
 // Project data with hardcoded base64 encoded SVG images
 const projectsData = [
   {
+    slug: 'fridglet',
     title: 'Fridglet',
     description: "Fridglet brings healthy dieting and eating habits to everyone. It allows you to eat healthy without breaking the bank by using ingredients you already have.",
     tags: ['Nutrition', 'AI','Health', 'COMING SOON'],
@@ -14,6 +15,7 @@ const projectsData = [
   ],
   },
   {
+    slug: 'vitra',
         title: 'Vitra',
     description: 'Vitra is an all-in-one fitness app that allows you to plan and track your sleep, diet, and workouts. Featuring a clean and sleek UI, Vitra makes it easy for anyone to be healthy.',
     tags: ['Fitness', 'AI', 'Mobile', 'COMING 2026'],
@@ -24,6 +26,7 @@ const projectsData = [
     ]
   },
   {
+    slug: 'mongolia',
     title: 'Mangolia AI Engine',
     description: 'The core artificial intelligence powering our ecosystem of health apps. Mangolia is being developed to provide personalized, predictive, and proactive wellness insights.',
     tags: ['Core Tech', 'AI', 'ML', 'COMING 2035'],
@@ -160,7 +163,9 @@ const OurWorkPage: React.FC = () => {
         </div>
         <div className="space-y-24 sm:space-y-32">
           {projectsData.map((project, index) => (
-            <Project key={project.title} project={project} index={index} />
+            <section key={project.title} id={(project as any).slug}>
+              <Project project={project as any} index={index} />
+            </section>
           ))}
         </div>
       </div>

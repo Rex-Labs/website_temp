@@ -1,0 +1,30 @@
+/* Underline animation for dropdown project items
+   - Uses ::after pseudo-element
+   - Default: scaleX(0) with origin on the right (so hidden toward right)
+   - Hover: origin on left and scaleX(1) to grow left-to-right
+   - On exit the rule reverts to origin-right + scaleX(0) so it shrinks right-to-left
+*/
+.project-link {
+  position: relative;
+  padding-left: 1rem; /* matches px-4 */
+  padding-right: 1rem;
+  padding-top: 0.5rem; /* matches py-2 */
+  padding-bottom: 0.5rem;
+}
+
+.project-link::after {
+  content: '';
+  position: absolute;
+  left: 1rem; /* align with left padding */
+  right: 1rem; /* align with right padding */
+  bottom: 0.5rem; /* slightly below the text */
+  height: 2px;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.project-link:hover::after {
+  transform: scaleX(1);
+}
