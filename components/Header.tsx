@@ -33,6 +33,7 @@ const Navigation: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [closeProjectsDropdown, setCloseProjectsDropdown] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('home');
+  const [projectsAccordionOpen, setProjectsAccordionOpen] = useState(false);
   const sectionIdsRef = useRef<string[]>(['home', 'work', 'crew', 'contact']);
 
   useEffect(() => {
@@ -69,90 +70,141 @@ const Navigation: React.FC = () => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
+    setProjectsAccordionOpen(false);
   };
 
-  const NavLinks: React.FC<{ className?: string }> = ({ className }) => (
-    <nav className={className}>
-      {navLinks.map(link => {
-        if (link.name === 'Our Projects') {
-          return (
-            <div key={link.name} className="relative group">
-              <a
-                href={link.href}
-                onClick={handleSmoothScroll}
-                aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
-                className={`relative text-sm font-medium transition-colors duration-200 py-2 inline-flex items-center ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
-              >
-                {link.name}
-                <svg className="ml-2 w-3 h-3 text-current transition-transform duration-300 transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-                <span className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`} />
-              </a>
-
-              <div
-                className={`mega-menu absolute left-1/2 mt-3 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-x-1/2 translate-y-1 group-hover:-translate-x-1/2 group-hover:translate-y-0 transition-all duration-200 ${closeProjectsDropdown ? 'opacity-0 invisible pointer-events-none' : ''}`}
-              >
-                <div className="mega-menu__inner">
-                  {projectMenuItems.map((project) => (
-                    <a
-                      key={project.id}
-                      href={`#${project.id}`}
-                      role="menuitem"
-                      onClick={(e) => {
-                        handleSmoothScroll(e);
-                        setCloseProjectsDropdown(true);
-                        setTimeout(() => setCloseProjectsDropdown(false), 350);
-                      }}
-                      className="mega-card"
+  const NavLinks: React.FC<{ className?: string; isMobile?: boolean }> = ({ className, isMobile = false }) => {
+    return (
+      <nav className={className}>
+        {navLinks.map(link => {
+          if (link.name === 'Our Projects') {
+            if (isMobile) {
+              return (
+                <div key={link.name} className="w-full">
+                  <button
+                    type="button"
+                    className="mobile-nav-trigger tap-friendly"
+                    aria-expanded={projectsAccordionOpen}
+                    onClick={() => setProjectsAccordionOpen(prev => !prev)}
+                  >
+                    <span>Our Projects</span>
+                    <svg
+                      className={`w-5 h-5 mobile-accordion__chevron ${projectsAccordionOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <div className="mega-card__thumb">
-                        <img src={project.image} alt={`${project.title} thumbnail`} />
-                      </div>
-                      <div className="mega-card__body">
-                        <div className="mega-card__title">{project.title}</div>
-                        <p className="mega-card__desc">{project.description}</p>
-                      </div>
-                    </a>
-                  ))}
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                  {projectsAccordionOpen && (
+                    <div className="mobile-accordion">
+                      {projectMenuItems.map(project => (
+                        <a
+                          key={project.id}
+                          href={`#${project.id}`}
+                          onClick={(e) => { handleSmoothScroll(e); setProjectsAccordionOpen(false); }}
+                          className="mobile-accordion__link"
+                        >
+                          <div className="mobile-accordion__thumb">
+                            <img src={project.image} alt={`${project.title} thumbnail`} />
+                          </div>
+                          <div className="mobile-accordion__body">
+                            <div className="mobile-accordion__title">{project.title}</div>
+                            <p className="mobile-accordion__desc">{project.description}</p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <div key={link.name} className="relative group">
+                <a
+                  href={link.href}
+                  onClick={handleSmoothScroll}
+                  aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
+                  className={`relative text-sm font-medium transition-colors duration-200 py-2 inline-flex items-center ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+                >
+                  {link.name}
+                  <svg className="ml-2 w-3 h-3 text-current transition-transform duration-300 transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                  <span className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`} />
+                </a>
+
+                <div
+                  className={`mega-menu absolute left-1/2 mt-3 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-x-1/2 translate-y-1 group-hover:-translate-x-1/2 group-hover:translate-y-0 transition-all duration-200 ${closeProjectsDropdown ? 'opacity-0 invisible pointer-events-none' : ''}`}
+                >
+                  <div className="mega-menu__inner">
+                    {projectMenuItems.map((project) => (
+                      <a
+                        key={project.id}
+                        href={`#${project.id}`}
+                        role="menuitem"
+                        onClick={(e) => {
+                          handleSmoothScroll(e);
+                          setCloseProjectsDropdown(true);
+                          setTimeout(() => setCloseProjectsDropdown(false), 350);
+                        }}
+                        className="mega-card"
+                      >
+                        <div className="mega-card__thumb">
+                          <img src={project.image} alt={`${project.title} thumbnail`} />
+                        </div>
+                        <div className="mega-card__body">
+                          <div className="mega-card__title">{project.title}</div>
+                          <p className="mega-card__desc">{project.description}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        return (
-          <a
-            key={link.name}
-            href={link.href}
-            onClick={handleSmoothScroll}
-            aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
-            className={`relative group text-sm font-medium transition-colors duration-200 py-2 ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
-          >
-            {link.name}
-            <span
-              className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`}
-            />
+          return (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={handleSmoothScroll}
+              aria-current={activeSection === link.href.replace('#', '') ? 'page' : undefined}
+              className={
+                isMobile
+                  ? `block w-full text-left text-lg font-semibold ${activeSection === link.href.replace('#', '') ? 'text-white' : 'text-gray-300 hover:text-white'}`
+                  : `relative group text-sm font-medium transition-colors duration-200 py-2 ${activeSection === link.href.replace('#','') ? 'text-white' : 'text-gray-300 hover:text-white'}`
+              }
+            >
+              {link.name}
+              {!isMobile && (
+                <span
+                  className={`absolute bottom-0 left-0 block h-[2px] bg-white transition-all duration-300 ease-in-out origin-left ${activeSection === link.href.replace('#','') ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'}`}
+                />
+              )}
+            </a>
+          );
+        })}
+        {/* Internships Closed Flair */}
+        <div className="relative flex items-center space-x-2">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm">
+            <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            Internships Closed! :)
+          </span>
+          <a href="https://discord.gg/DcJsgVFHM8" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#5865F2] text-white border border-[#5865F2] backdrop-blur-sm hover:bg-[#4f5bda] transition-colors duration-200">
+            <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            Join our community!
           </a>
-        );
-      })}
-      {/* Internships Closed Flair */}
-      <div className="relative flex items-center space-x-2">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm">
-          <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-          </svg>
-          Internships Closed! :)
-        </span>
-        <a href="https://discord.gg/DcJsgVFHM8" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#5865F2] text-white border border-[#5865F2] backdrop-blur-sm hover:bg-[#4f5bda] transition-colors duration-200">
-          <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-          </svg>
-          Join our community!
-        </a>
-      </div>
-    </nav>
-  );
+        </div>
+      </nav>
+    );
+  };
 
   return (
     <>
@@ -189,9 +241,9 @@ const Navigation: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-40 bg-black/80 backdrop-blur-lg">
+        <div className="md:hidden fixed inset-0 top-16 z-40 bg-black/80 backdrop-blur-lg overflow-y-auto">
           <div className="p-8">
-            <NavLinks className="flex flex-col items-start space-y-6" />
+            <NavLinks isMobile className="flex flex-col items-start space-y-6 mobile-nav-links" />
           </div>
         </div>
       )}

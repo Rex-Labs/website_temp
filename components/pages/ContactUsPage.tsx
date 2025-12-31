@@ -80,7 +80,7 @@ const ContactUsPage: React.FC = () => {
                     if (!ctaRef.current) return;
                     ctaRef.current.style.transform = '';
                   }}
-                  className="relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center py-3 px-8 border border-transparent rounded-lg shadow-sm text-base font-semibold text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all will-change-transform hover:shadow-lg hover:shadow-white/20 disabled:opacity-75 disabled:cursor-wait"
+                  className="relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center tap-friendly text-lg md:text-base py-3.5 md:py-3 px-10 md:px-8 border border-transparent rounded-lg shadow-sm font-semibold text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all will-change-transform hover:shadow-lg hover:shadow-white/20 disabled:opacity-75 disabled:cursor-wait"
                 >
                   {isSubmitting ? (
                     <>
@@ -116,14 +116,14 @@ const ContactUsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="py-2 px-6 border border-white/20 rounded-lg text-sm font-semibold text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all"
+                className="tap-friendly py-2.5 md:py-2 px-7 md:px-6 border border-white/20 rounded-lg text-base md:text-sm font-semibold text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleConfirmSend}
-                className="py-2 px-6 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all transform hover:scale-[1.03]"
+                className="tap-friendly py-2.5 md:py-2 px-7 md:px-6 border border-transparent rounded-lg shadow-sm text-base md:text-sm font-semibold text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-white transition-all transform hover:scale-[1.03]"
               >
                 Proceed
               </button>

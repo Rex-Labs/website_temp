@@ -105,6 +105,17 @@
           opacity: 0;
         }
       }
+
+      /* Ensure images stay within the viewport and keep aspect ratio */
+      img { max-width: 100%; height: auto; }
+
+      /* Mobile-only tap target bump */
+      @media (max-width: 768px) {
+        .tap-friendly {
+          padding: 0.9rem 1.15rem;
+          font-size: 1.05rem;
+        }
+      }
     </style>
   <script type="importmap">
 {
