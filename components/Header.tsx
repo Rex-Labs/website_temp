@@ -7,6 +7,27 @@ const navLinks = [
   { name: 'Contact Us', href: '#contact' },
 ];
 
+const projectMenuItems = [
+  {
+    id: 'fridglet',
+    title: 'Fridglet',
+    description: 'Healthy meals from what’s already in your fridge, with smart AI guidance.',
+    image: '/fridglet/showcase.png',
+  },
+  {
+    id: 'vitra',
+    title: 'Vitra',
+    description: 'All-in-one fitness with sleep, diet, and workouts wrapped in a sleek UI.',
+    image: '/vitra/all.png',
+  },
+  {
+    id: 'mongolia',
+    title: 'Mongolia',
+    description: 'Our AI engine powering predictive wellness across the Rex Labs ecosystem.',
+    image: '/magnolia/logo.png',
+  },
+];
+
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -70,19 +91,30 @@ const Navigation: React.FC = () => {
               </a>
 
               <div
-                className={`absolute right-0 mt-3 w-48 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-1 group-hover:translate-y-0 transition-all duration-200 ${closeProjectsDropdown ? 'opacity-0 invisible pointer-events-none' : ''}`}
-                style={{ backgroundColor: 'rgba(26,26,26,0.9)', border: '1px solid rgba(60,60,60,0.6)' }}
+                className={`mega-menu absolute left-1/2 mt-3 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-x-1/2 translate-y-1 group-hover:-translate-x-1/2 group-hover:translate-y-0 transition-all duration-200 ${closeProjectsDropdown ? 'opacity-0 invisible pointer-events-none' : ''}`}
               >
-                <div className="py-2 backdrop-blur-[10px] rounded-xl">
-                  <a href="#fridglet" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
-                    Fridglet
-                  </a>
-                  <a href="#vitra" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
-                    Vitra
-                  </a>
-                  <a href="#mongolia" role="menuitem" onClick={(e) => { handleSmoothScroll(e); setCloseProjectsDropdown(true); setTimeout(() => setCloseProjectsDropdown(false), 350); }} className="project-link block px-4 py-2 text-sm text-white/90 rounded-md hover:bg-[#333] hover:text-white transition-colors duration-150">
-                    Mongolia
-                  </a>
+                <div className="mega-menu__inner">
+                  {projectMenuItems.map((project) => (
+                    <a
+                      key={project.id}
+                      href={`#${project.id}`}
+                      role="menuitem"
+                      onClick={(e) => {
+                        handleSmoothScroll(e);
+                        setCloseProjectsDropdown(true);
+                        setTimeout(() => setCloseProjectsDropdown(false), 350);
+                      }}
+                      className="mega-card"
+                    >
+                      <div className="mega-card__thumb">
+                        <img src={project.image} alt={`${project.title} thumbnail`} />
+                      </div>
+                      <div className="mega-card__body">
+                        <div className="mega-card__title">{project.title}</div>
+                        <p className="mega-card__desc">{project.description}</p>
+                      </div>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
