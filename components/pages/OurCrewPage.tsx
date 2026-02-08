@@ -8,7 +8,7 @@ const crewMembers = [
   image: '/aditya.jpg',
   },
   {
-    name: 'Om Dihvedi',
+    name: 'Om Dwivedi',
     role: 'Co-Founder',
     subtitle: 'Back End & Cyber Security',
   image: '/om.jpg',
